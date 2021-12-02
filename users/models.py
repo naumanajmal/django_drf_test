@@ -2,6 +2,13 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager, User
 from django.db.models.expressions import Value
+class Snippet(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='snippets', on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, blank=True, default='')
+    code = models.TextField()
+    class Meta:
+        ordering = ['created']
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, on_delete=models.CASCADE)
     def __str__(self) -> str:
