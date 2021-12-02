@@ -1,6 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager
+from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager, User
 from django.db.models.expressions import Value
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, on_delete=models.CASCADE)
+    def __str__(self) -> str:
+        return f'{self.user.user_name} Profile'
+
 class CustomUserManager(BaseUserManager):
     def _create_user(self, email, password, first_name, last_name, address, **extra_fields):
         if not email:
